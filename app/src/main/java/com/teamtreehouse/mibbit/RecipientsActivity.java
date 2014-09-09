@@ -65,7 +65,7 @@ public class RecipientsActivity extends ListActivity {
         int id = item.getItemId();
         if (id == R.id.action_send) {
             ParseObject message = createMessage();
-            //TODO complete this method send(message);
+            // send(message);
             if (message == null) {
                 //error
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);

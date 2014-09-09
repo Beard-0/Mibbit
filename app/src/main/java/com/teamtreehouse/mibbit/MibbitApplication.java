@@ -3,6 +3,7 @@ package com.teamtreehouse.mibbit;
 import android.app.Application;
 
 import com.parse.Parse;
+import com.parse.PushService;
 
 
 public class MibbitApplication extends Application {
@@ -12,5 +13,6 @@ public class MibbitApplication extends Application {
         super.onCreate();
         Parse.initialize(this, "sMpe2ZIflPDIClV7LSELvGM1sqkyDZblkAggPzJv", "KrqPZwKLRW5WV65vdwYlZWWBy4LXVupBFRs5hQbv");
 
+        PushService.setDefaultPushCallback(this, MainActivity.class);
     }
 }

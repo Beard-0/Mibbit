@@ -214,6 +214,7 @@ public class MainActivity extends FragmentActivity implements
         }
     }
 
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -293,15 +294,18 @@ public class MainActivity extends FragmentActivity implements
             case R.id.action_logout:
                 ParseUser.logOut();
                 navigateToLogin();
+                break;
             case R.id.action_edit_friend:
                 Intent intent = new Intent(this, EditFriendsActivity.class);
                 startActivity(intent);
+                break;
             case R.id.action_camera:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setItems(R.array.camera_choices, mDialogListener);
 
                 AlertDialog dialog = builder.create();
                 dialog.show();
+                break;
 
         }
 
