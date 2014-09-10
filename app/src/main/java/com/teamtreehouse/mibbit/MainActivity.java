@@ -28,70 +28,72 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class MainActivity extends FragmentActivity implements
-        ActionBar.TabListener {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
     public static final String TAG = MainActivity.class.getSimpleName();
+
     public static final int TAKE_PHOTO_REQUEST = 0;
     public static final int TAKE_VIDEO_REQUEST = 1;
     public static final int PICK_PHOTO_REQUEST = 2;
     public static final int PICK_VIDEO_REQUEST = 3;
 
     public static final int MEDIA_TYPE_IMAGE = 4;
-    public static final int MEDIA_TYPE_VIDEO = 4;
+    public static final int MEDIA_TYPE_VIDEO = 5;
 
-    public static final int FILE_SIZE_LIMIT = 1024 * 1024 * 10; //10MB
+    public static final int FILE_SIZE_LIMIT = 10567840; //10MB
 
     protected Uri mMediaUri;
 
 
-    protected DialogInterface.OnClickListener mDialogListener = new DialogInterface.OnClickListener() {
+    protected DialogInterface.OnClickListener mDialogListener =
+            new DialogInterface.OnClickListener() {
 
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            switch (which) {
-                case 0: // Take picture
-                    Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
-                    if (mMediaUri == null) {
-                        // display an error
-                        Toast.makeText(MainActivity.this, R.string.error_external_storage,
-                                Toast.LENGTH_LONG).show();
-                    } else {
-                        takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
-                        startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+                        case 0: // Take picture
+                            Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+                            if (mMediaUri == null) {
+                                // display an error
+                                Toast.makeText(MainActivity.this, R.string.error_external_storage,
+                                        Toast.LENGTH_LONG).show();
+                            } else {
+                                takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
+                                startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
+                            }
+                            break;
+                        case 1: //Take video
+                            Intent videoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                            mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO);
+                            if (mMediaUri == null) {
+                                // display an error
+                                Toast.makeText(MainActivity.this, R.string.error_external_storage,
+                                        Toast.LENGTH_LONG).show();
+                            } else {
+                                videoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
+                                videoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10);
+                                videoIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
+                                videoIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, 10567840);
+                                startActivityForResult(videoIntent, TAKE_VIDEO_REQUEST);
+
+                            }
+                            break;
+                        case 2: // Choose Picture
+                            Intent choosePhotoIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                            choosePhotoIntent.setType("image/*");
+                            startActivityForResult(choosePhotoIntent, PICK_PHOTO_REQUEST);
+
+                            break;
+                        case 3: // Choose Video
+                            Intent chooseVideoIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                            chooseVideoIntent.setType("video/*");
+                            Toast.makeText(MainActivity.this, getString(R.string.video_file_size_warning), Toast.LENGTH_LONG).show();
+                            startActivityForResult(chooseVideoIntent, PICK_VIDEO_REQUEST);
+                            break;
                     }
-
-                    break;
-                case 1: //Take video
-                    Intent videoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-                    mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO);
-                    if (mMediaUri == null) {
-                        // display an error
-                        Toast.makeText(MainActivity.this, R.string.error_external_storage,
-                                Toast.LENGTH_LONG).show();
-                    } else {
-                        videoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
-                        videoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10);
-                        videoIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
-                        startActivityForResult(videoIntent, TAKE_VIDEO_REQUEST);
-                    }
-                    break;
-                case 2: // Choose Picture
-                    Intent choosePhotoIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                    choosePhotoIntent.setType("image/*");
-                    startActivityForResult(choosePhotoIntent, PICK_PHOTO_REQUEST);
-
-                    break;
-                case 3: // Choose Video
-                    Intent chooseVideoIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                    chooseVideoIntent.setType("video/*");
-                    Toast.makeText(MainActivity.this, getString(R.string.video_file_size_warning), Toast.LENGTH_LONG).show();
-                    startActivityForResult(chooseVideoIntent, PICK_VIDEO_REQUEST);
-                    break;
-            }
-        }
-    };
+                }
+            };
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -132,9 +134,9 @@ public class MainActivity extends FragmentActivity implements
             String timestamp = new SimpleDateFormat("ddMMyyyy_HHmmss", Locale.US).format(now);
             String path = mediaStorageDir.getPath() + File.separator;
             if (mediaType == MEDIA_TYPE_IMAGE) {
-                mediaFile = new File(path + "IMG" + timestamp + ".jpg");
+                mediaFile = new File(path + "IMG_" + timestamp + ".jpg");
             } else if (mediaType == MEDIA_TYPE_VIDEO) {
-                mediaFile = new File(path + "VID" + timestamp + ".mp4");
+                mediaFile = new File(path + "VID_" + timestamp + ".mp4");
 
             } else {
                 return null;
@@ -214,6 +216,19 @@ public class MainActivity extends FragmentActivity implements
         }
     }
 
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mMediaUri != null) {
+            outState.putString("mediaUri", mMediaUri.toString());
+        }
+    }
+
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState.containsKey("mediaUri")) {
+            mMediaUri = Uri.parse(savedInstanceState.getString("mediaUri"));
+        }
+    }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -243,7 +258,9 @@ public class MainActivity extends FragmentActivity implements
                         return;
                     } finally {
                         try {
-                            inputStream.close();
+                            if (inputStream != null) {   /// I surrounded the input stream with null TODO:
+                                inputStream.close();
+                            }
                         } catch (IOException e) {        /*intentionally blank*/ }
                     }
                     if (fileSize >= FILE_SIZE_LIMIT) {
@@ -252,8 +269,7 @@ public class MainActivity extends FragmentActivity implements
                     }
                 }
             } else {
-                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                mediaScanIntent.setData(mMediaUri);
+                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, mMediaUri);  // put mMediaUri next to action_media Scanner TODO:
                 sendBroadcast(mediaScanIntent);
             }
             Intent recipientsIntent = new Intent(this, RecipientsActivity.class);

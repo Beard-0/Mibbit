@@ -28,6 +28,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 return new InboxFragment();
+
             case 1:
                 return new FriendsFragment();
 
