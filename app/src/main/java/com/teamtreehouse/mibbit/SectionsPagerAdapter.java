@@ -51,9 +51,17 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
                 return mContext.getString(R.string.title_section1).toUpperCase(l);
             case 1:
                 return mContext.getString(R.string.title_section2).toUpperCase(l);
-            case 2:
-                return mContext.getString(R.string.title_section3).toUpperCase(l);
         }
         return null;
+    }
+
+    public int getIcon(int position) {
+        switch (position) {
+            case 0:
+                return R.drawable.ic_tab_inbox;
+            case 1:
+                return R.drawable.ic_tab_friends;
+        }
+        return R.drawable.ic_tab_inbox;
     }
 }
