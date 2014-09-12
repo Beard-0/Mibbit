@@ -1,4 +1,4 @@
-package com.teamtreehouse.mibbit;
+package com.teamtreehouse.mibbit.ui;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
@@ -19,6 +19,9 @@ import android.widget.Toast;
 
 import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
+import com.teamtreehouse.mibbit.R;
+import com.teamtreehouse.mibbit.adapters.SectionsPagerAdapter;
+import com.teamtreehouse.mibbit.utils.ParseConstants;
 
 import java.io.File;
 import java.io.FileNotFoundException;

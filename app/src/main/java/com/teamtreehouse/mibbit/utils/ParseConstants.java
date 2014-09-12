@@ -1,4 +1,4 @@
-package com.teamtreehouse.mibbit;
+package com.teamtreehouse.mibbit.utils;
 
 /**
  * Created by SALA022 on 3/9/2014.
@@ -7,6 +7,7 @@ public final class ParseConstants {
     //Class name
     public static final String CLASS_MESSAGES = "Messages";
     //Field names
+    public static final String KEY_USER_ID = "userID";
     public static final String KEY_USERNAME = "username";
     public static final String KEY_FRIENDS_RELATION = "friendsRelation";
     public static final String KEY_RECIPIENT_IDS = "recipientIds";

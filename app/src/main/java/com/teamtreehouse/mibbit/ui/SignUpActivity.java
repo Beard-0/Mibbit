@@ -1,4 +1,4 @@
-package com.teamtreehouse.mibbit;
+package com.teamtreehouse.mibbit.ui;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -13,6 +13,8 @@ import android.widget.EditText;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
+import com.teamtreehouse.mibbit.MibbitApplication;
+import com.teamtreehouse.mibbit.R;
 
 
 public class SignUpActivity extends Activity {
@@ -77,6 +79,8 @@ public class SignUpActivity extends Activity {
                             setProgressBarIndeterminateVisibility(false);
                             if (e == null) {
                                 //Success!
+                                MibbitApplication.updateParseInstallation(ParseUser.getCurrentUser());
+
                                 Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -1,4 +1,4 @@
-package com.teamtreehouse.mibbit;
+package com.teamtreehouse.mibbit.ui;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
+import com.teamtreehouse.mibbit.R;
 
 import java.util.Timer;
 import java.util.TimerTask;

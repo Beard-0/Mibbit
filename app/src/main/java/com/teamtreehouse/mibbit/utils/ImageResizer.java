@@ -1,4 +1,4 @@
-package com.teamtreehouse.mibbit;
+package com.teamtreehouse.mibbit.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

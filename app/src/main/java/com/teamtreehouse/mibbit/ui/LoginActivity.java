@@ -1,4 +1,4 @@
-package com.teamtreehouse.mibbit;
+package com.teamtreehouse.mibbit.ui;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.teamtreehouse.mibbit.MibbitApplication;
+import com.teamtreehouse.mibbit.R;
 
 
 public class LoginActivity extends Activity {
@@ -72,6 +74,8 @@ public class LoginActivity extends Activity {
 
                             if (e == null) {
                                 // Success!
+                                MibbitApplication.updateParseInstallation(user);
+
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

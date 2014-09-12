@@ -1,9 +1,13 @@
-package com.teamtreehouse.mibbit;
+package com.teamtreehouse.mibbit.adapters;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.teamtreehouse.mibbit.R;
+import com.teamtreehouse.mibbit.ui.FriendsFragment;
+import com.teamtreehouse.mibbit.ui.InboxFragment;
 
 import java.util.Locale;
 
